@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import useFetch from './hooks/useFetch'
 
 // Components
+import Form from './components/Form'
 import ForecastResult from './components/ForecastResult'
 
 function App() {
@@ -30,13 +31,9 @@ function App() {
   return (
     <div className="App">
       <h1>Weather forecast application</h1>
-      <h2>Type a city to find out the forecast</h2>
-      <form onSubmit={handleSubmit}>
-        <label>City</label>
+      <h2>Type a city to find out its forecast</h2>
 
-        <input id="city" name="city" value={inputSearch} onChange={handleChange} />
-        <button>Search</button>
-      </form>
+      <Form inputSearch={inputSearch} handleChange={handleChange} handleSubmit={handleSubmit}></Form>
 
       {isFetching && <p>Fetching forecast...</p>}
       {error && <p>{error}</p>}
