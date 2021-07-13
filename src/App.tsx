@@ -19,7 +19,10 @@ function App() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
     setQuery(inputSearch)
+
+    setInputSearch('')
   }
 
   console.log('Rendering App', data, query)

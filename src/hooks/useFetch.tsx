@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useReducer, useEffect } from 'react'
 
 //Config
 import config from '../environment'
@@ -12,17 +12,34 @@ export async function http(request: RequestInfo): Promise<any> {
   return body
 }
 
+const initialState = {
+  data: null,
+  isFetching: false,
+  error: null,
+}
+
+const fetchReducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case 'FETCH_INIT':
+      return { ...state, data: null, isFetching: true, error: null }
+    case 'FETCH_SUCCESS':
+      return { ...state, data: action.payload, isFetching: false, error: null }
+    case 'FETCH_FAILURE':
+      return { ...state, data: null, isFetching: false, error: action.payload }
+    default:
+      throw new Error('Type is invalid')
+  }
+}
+
 const useFetch = (query: string) => {
-  const [data, setData] = useState(null)
-  const [isFetching, setIsFetching] = useState(false)
-  const [error, setError] = useState(null)
+  const [state, dispatch] = useReducer(fetchReducer, initialState)
 
   useEffect(() => {
     if (!query) return
 
     const fetchData = async () => {
       try {
-        setIsFetching(true)
+        dispatch({ type: 'FETCH_INIT' })
 
         const responseLatLon: any = await http(`${baseUrl}/weather?q=${query}&appid=${OPEN_WEATHER_API_KEY}`)
 
@@ -37,19 +54,27 @@ const useFetch = (query: string) => {
           `${baseUrl}/onecall?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_API_KEY}&exclude=minutely,hourly,alerts&units=metric`
         )
 
-        setData(responseForecast)
-
-        setIsFetching(false)
+        dispatch({ type: 'FETCH_SUCCESS', payload: responseForecast })
       } catch (err) {
-        setIsFetching(false)
-        setError(err.message)
+        dispatch({ type: 'FETCH_FAILURE', payload: err.message })
       }
     }
 
     fetchData()
   }, [query])
 
-  return { data, isFetching, error }
+  return { ...state }
+}
+
+interface State {
+  data: object | null
+  isFetching: boolean
+  error: string | null
+}
+
+interface Action {
+  type: 'FETCH_INIT' | 'FETCH_SUCCESS' | 'FETCH_FAILURE'
+  payload?: any
 }
 
 export default useFetch
