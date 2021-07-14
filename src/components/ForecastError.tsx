@@ -1,5 +1,3 @@
-import React from 'react'
-
 const ForecastError = ({ error }: IForecastError) => {
   return <p>{error}</p>
 }

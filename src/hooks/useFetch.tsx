@@ -6,18 +6,21 @@ const { OPEN_WEATHER_API_KEY } = config
 
 const baseUrl = 'https://api.openweathermap.org/data/2.5'
 
+//Helper to extract the fetch response body in JSON
 export async function http(request: RequestInfo): Promise<any> {
   const response = await fetch(request)
   const body = await response.json()
   return body
 }
 
+//Initial reducer state
 const initialState = {
   data: null,
   isFetching: false,
   error: null,
 }
 
+//API reducer
 const fetchReducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'FETCH_INIT':
@@ -27,10 +30,11 @@ const fetchReducer = (state: State, action: Action) => {
     case 'FETCH_FAILURE':
       return { ...state, data: null, isFetching: false, error: action.payload }
     default:
-      throw new Error('Type is invalid')
+      throw new Error('Action type is invalid')
   }
 }
 
+//Custom API hook
 const useFetch = (query: string) => {
   const [state, dispatch] = useReducer(fetchReducer, initialState)
 

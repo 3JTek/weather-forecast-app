@@ -7,14 +7,14 @@ import ForecastCard from './ForecastCard'
 //Style
 import './ForecastResult.scss'
 
-const ForecastResult = ({ city, data }: ICurrentWeatherState) => {
-  const sanitizeData = (dt: number, temp: number, weather: { description: string; icon: string }[]) => ({
-    date: moment(dt * 1000).format('Do MMMM '),
-    temp: Math.round(temp),
-    weather: weather[0].description,
-    iconId: weather[0].icon,
-  })
+export const sanitizeData = (dt: number, temp: number, weather: { description: string; icon: string }[]) => ({
+  date: moment(dt * 1000).format('Do MMMM '),
+  temp: Math.round(temp),
+  weather: weather[0].description,
+  iconId: weather[0].icon,
+})
 
+const ForecastResult = ({ city, data }: ICurrentWeatherState) => {
   if (!data) return null
 
   const { current, daily } = data
