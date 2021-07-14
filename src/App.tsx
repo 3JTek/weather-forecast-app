@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
 
+//Hooks
 import useFetch from './hooks/useFetch'
 
 // Components
+import Container from './hoc/Container'
+import Header from './components/Header'
 import Form from './components/Form'
+import ForecastFetching from './components/ForecastFetching'
 import ForecastResult from './components/ForecastResult'
+import ForecastError from './components/ForecastError'
 
 function App() {
   // States
@@ -26,19 +31,19 @@ function App() {
     setInputSearch('')
   }
 
-  console.log('Rendering App', data, query)
-
   return (
-    <div className="App">
-      <h1>Weather forecast application</h1>
-      <h2>Type a city to find out its forecast</h2>
+    <Container>
+      <header>
+        <Header />
+      </header>
+      <main>
+        <Form inputSearch={inputSearch} handleChange={handleChange} handleSubmit={handleSubmit}></Form>
 
-      <Form inputSearch={inputSearch} handleChange={handleChange} handleSubmit={handleSubmit}></Form>
-
-      {isFetching && <p>Fetching forecast...</p>}
-      {error && <p>{error}</p>}
-      {data && <ForecastResult data={data} />}
-    </div>
+        {isFetching && <ForecastFetching />}
+        {error && <ForecastError error={error} />}
+        {data && <ForecastResult city={query} data={data} />}
+      </main>
+    </Container>
   )
 }
 

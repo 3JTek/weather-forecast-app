@@ -1,11 +1,15 @@
 import React from 'react'
+import moment from 'moment'
 
 //Components
 import ForecastCard from './ForecastCard'
 
-const ForecastResult = ({ data }: ICurrentWeatherState) => {
+//Style
+import './ForecastResult.scss'
+
+const ForecastResult = ({ city, data }: ICurrentWeatherState) => {
   const sanitizeData = (dt: number, temp: number, weather: { description: string; icon: string }[]) => ({
-    date: new Date(dt * 1000).toLocaleString(),
+    date: moment(dt * 1000).format('Do MMMM '),
     temp: Math.round(temp),
     weather: weather[0].description,
     iconId: weather[0].icon,
@@ -13,7 +17,7 @@ const ForecastResult = ({ data }: ICurrentWeatherState) => {
 
   if (!data) return null
 
-  const { city, current, daily } = data
+  const { current, daily } = data
 
   const currentSanitized = sanitizeData(current.dt, current.temp, current.weather)
 
@@ -23,21 +27,23 @@ const ForecastResult = ({ data }: ICurrentWeatherState) => {
   const forecastTimeline = [currentSanitized, ...next5DaysForecastSanitized]
 
   return (
-    <>
+    <div id="forecast-result">
       <h2>City: {city}</h2>
 
-      {forecastTimeline.map((item: any) => (
-        <React.Fragment key={item.dt}>
-          <ForecastCard date={item.date} temp={item.temp} weather={item.weatherDescription} iconId={item.iconId} />
-        </React.Fragment>
-      ))}
-    </>
+      <div className="forecast-timeline">
+        {forecastTimeline.map((item: any) => (
+          <React.Fragment key={item.dt}>
+            <ForecastCard date={item.date} temp={item.temp} weather={item.weatherDescription} iconId={item.iconId} />
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
   )
 }
 
 interface ICurrentWeatherState {
+  city: string
   data: {
-    city: string
     current: {
       dt: number
       temp: number

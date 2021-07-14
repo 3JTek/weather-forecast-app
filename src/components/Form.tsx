@@ -1,10 +1,17 @@
 import React from 'react'
 
+//Style
+import './Form.scss'
+
+//Images
+import Magnifier from '../assets/images/magnifier.svg'
+
 const Form = ({ inputSearch, handleChange, handleSubmit }: IForm) => (
-  <form onSubmit={handleSubmit}>
-    <label htmlFor="city">City</label>
-    <input id="city" name="city" value={inputSearch} onChange={handleChange} autoFocus={true} />
-    <button>Search</button>
+  <form id="form" onSubmit={handleSubmit}>
+    <input id="city" name="city" value={inputSearch} onChange={handleChange} autoFocus={true} placeholder="search" />
+    <button>
+      <img src={Magnifier} alt="magnifier" />
+    </button>
   </form>
 )
 

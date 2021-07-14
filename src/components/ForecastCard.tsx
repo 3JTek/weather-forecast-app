@@ -1,10 +1,14 @@
 import React from 'react'
 
+//Style
+import './ForecastCard.scss'
+
 const ForecastCard = ({ date, temp, weather, iconId }: IForecastCard) => (
-  <div>
-    <h3>{date}</h3>
-    <p>Temperature: {Math.round(temp)}</p>
-    <p>Weather: {weather}</p>
+  <div id="forecast-card">
+    <h5>{date}</h5>
+    <h5>Temperature:</h5>
+    <p>{Math.round(temp)}</p>
+    <h5>Weather: {weather}</h5>
     <img src={`http://openweathermap.org/img/wn/${iconId}@2x.png`} alt={weather} />
   </div>
 )

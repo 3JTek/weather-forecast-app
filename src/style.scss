@@ -1,0 +1,26 @@
+@import 'variables.scss';
+
+* {
+  text-align: center;
+  font-family: roboto;
+  color: #fff;
+}
+
+body {
+  background-color: #2a2d3e;
+}
+
+input {
+  text-align: left;
+  color: #000;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  line-height: 24px;
+}
+
+button {
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background-color: lighten($primary-color, 30%);
+  border: 1px solid $primary-color;
+}
