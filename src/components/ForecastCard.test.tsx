@@ -2,7 +2,14 @@ import { render, screen } from '@testing-library/react'
 import ForecastCard from './ForecastCard'
 
 test('renders forecast card component', () => {
-  render(<ForecastCard date="22nd July" temp={24} weather="cloudy" iconId="4d" />)
+  render(
+    <ForecastCard
+      date="22nd July"
+      temp={24}
+      weatherDescription="cloudy"
+      iconUrl="http://openweathermap.org/img/wn/4d@2x.png"
+    />
+  )
 
   const dateElement = screen.getByText(/22nd July/i)
   expect(dateElement).toBeInTheDocument()

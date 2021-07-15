@@ -5,6 +5,6 @@ test('Sanitize data function from the forecast result component', () => {
 
   expect(result.date).toEqual('13th July ')
   expect(result.temp).toEqual(12)
-  expect(result.weather).toEqual('cloudy')
-  expect(result.iconId).toEqual('14d')
+  expect(result.weatherDescription).toEqual('cloudy')
+  expect(result.iconUrl).toEqual('http://openweathermap.org/img/wn/14d@2x.png')
 })
