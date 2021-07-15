@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import useFetch from './hooks/useFetch'
 
 // Components
-import Container from './hoc/Container'
+import Container from './components/Container'
 import Header from './components/Header'
 import Form from './components/Form'
 import ForecastFetching from './components/ForecastFetching'
