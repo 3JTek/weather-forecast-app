@@ -7,11 +7,11 @@ import ForecastCard from './ForecastCard'
 //Style
 import './ForecastResult.scss'
 
-export const sanitizeData = (dt: number, temp: number, weather: { description: string; icon: string }[]) => ({
-  date: moment(dt * 1000).format('Do MMMM '),
+export const sanitizeData = (dt: number | null, temp: number, weather: { description: string; icon: string }[]) => ({
+  date: dt ? moment(dt * 1000).format('Do MMMM ') : 'Now',
   temp: Math.round(temp),
-  weather: weather[0].description,
-  iconId: weather[0].icon,
+  weatherDescription: weather[0].description,
+  iconUrl: `http://openweathermap.org/img/wn/${weather[0].icon}@2x.png`,
 })
 
 const ForecastResult = ({ city, data }: ICurrentWeatherState) => {
@@ -19,7 +19,7 @@ const ForecastResult = ({ city, data }: ICurrentWeatherState) => {
 
   const { current, daily } = data
 
-  const currentSanitized = sanitizeData(current.dt, current.temp, current.weather)
+  const currentSanitized = sanitizeData(null, current.temp, current.weather)
 
   const next5DaysForecast = daily.slice(1, 6) //Here we keep only the 5 next days
   const next5DaysForecastSanitized = next5DaysForecast.map((item) => sanitizeData(item.dt, item.temp.day, item.weather))
@@ -33,7 +33,12 @@ const ForecastResult = ({ city, data }: ICurrentWeatherState) => {
       <div className="forecast-timeline">
         {forecastTimeline.map((item: any) => (
           <React.Fragment key={item.dt}>
-            <ForecastCard date={item.date} temp={item.temp} weather={item.weatherDescription} iconId={item.iconId} />
+            <ForecastCard
+              date={item.date}
+              temp={item.temp}
+              weatherDescription={item.weatherDescription}
+              iconUrl={item.iconUrl}
+            />
           </React.Fragment>
         ))}
       </div>
